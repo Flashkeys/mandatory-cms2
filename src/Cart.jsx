@@ -9,6 +9,7 @@ const Cart = () => {
   function totalPrice() {
 
   }
+  totalPrice();
   function removeCart() {
     localStorage.removeItem('cart');
     window.location.reload();
@@ -18,23 +19,21 @@ const Cart = () => {
     const cart = [...result];
     if (index > -1) {
       cart.splice(index, 1);
-      console.log(cart);
       setResult(cart);
       localStorage.setItem("cart", JSON.stringify(cart));
     }
-    console.log(index);
-    
+
   }
   return (
     <div>
-      <div className="text-center">
-        <h2>Shopping Cart</h2>
-        <br></br>
-        <Link to="/">Home</Link>
-        <br></br>
-        <Link to="/Cart">Shoping Cart</Link>
-        <div>
-          <table>
+      <div className="container">
+        <h2 className="text-center">Shopping Cart</h2>
+        <div className="links">
+          <Link to="/">Home</Link>
+          <Link to="/Cart">Shoping Cart</Link>
+        </div>
+        <div className="flex">
+          <table className="table">
             <thead>
               <tr>
                 <th></th>
@@ -45,19 +44,23 @@ const Cart = () => {
             </thead>
             <tbody>
               {result.length && result.map(cart => (
-                <tr>
+                <tr className="tr">
                   <img src={"http://192.168.99.100:8080/" + cart.Img.path}></img>
                   <td>{cart.Name}</td>
                   <td>{cart.Stock}</td>
                   <td>{cart.Price}</td>
-                  <button onClick={() => removeItem(cart)}>Remove item</button>
+                  <button className="btn-cart" onClick={() => removeItem(cart)}>Remove item</button>
                 </tr>
               ))}
             </tbody>
           </table>
-          <button onClick={removeCart}>Empty cart</button>
-          <p>price = {price} $</p>
-          <button>Buy now!</button>
+        </div>
+        <div className="text-center">
+          <br></br>
+          <button className="btn-sub" onClick={removeCart}>Empty cart</button>
+          <h3>price = {price} $</h3>
+          <button className="btn-sub">Buy now!</button>
+          <div className="space"></div>
         </div>
       </div>
     </div>

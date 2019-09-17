@@ -8,7 +8,7 @@ const Home = () => {
   const [initResult, setInitResult] = useState([]);
   const [page, setPage] = useState(1);
   const [max, setMax] = useState(1);
-  const limit = 5;
+  const limit = 4;
 
   useEffect(() => {
 
@@ -27,11 +27,11 @@ const Home = () => {
 
   function searchFilter(searchQuery) {
     const regex = new RegExp(searchQuery, "i");
-    setFilterResult( results.filter(result => result.Name.match(regex)));
+    setFilterResult(results.filter(result => result.Name.match(regex)));
   }
   function showStock(checked) {
     if (checked) {
-      setResult( results.filter(result => result.Stock > 0));
+      setResult(results.filter(result => result.Stock > 0));
     } else {
       setResult(initResult)
     }
@@ -40,55 +40,55 @@ const Home = () => {
 
   return (
     <div className="container">
-      <div className="text-center">
-        <h2>Home page</h2>
-        <br></br>
+      <h2 className="text-center">Home page</h2>
+      <div className="links">
         <Link to="/">Home</Link>
-        <br></br>
         <Link to="/Cart">Shoping Cart</Link>
       </div>
-      <div className="pagg">
+      <div className="text-center">
         <button onClick={() => setPage(page - 1)}>&lt;</button>
         <input type="number" min={1} max={max} value={page} />
         <button onClick={() => setPage(page + 1)}>&gt;</button>
       </div>
-      <div>
+      <div className="text-center">
         <input type="text" placeholder="Search..." onChange={(e) => searchFilter(e.target.value)} />
         <br></br>
         In Stock : <input type="checkbox" onChange={(e) => showStock(e.target.checked)} />
       </div>
       <div className="posts">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Stock</th>
-              <th>Price</th>
-              <th>Link</th>
-            </tr>
-          </thead>
-          <tbody>
-          {filterResult.length ? filterResult.map((result) => (
-              <tr key={result._id}>
-                <img src={"http://192.168.99.100:8080/" + result.Img.path}></img>
-                <td>{result.Name}</td>
-                <td>{result.Stock}</td>
-                <td>{result.Price}</td>
-                <td><Link to={`/Info/${result._id}`}>More info</Link></td>
+        <div className="flex">
+          <table className="table">
+            <thead>
+              <tr className="tr">
+                <th></th>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Link</th>
               </tr>
-            )) :
-          results.map((result) => (
-              <tr key={result._id}>
-                <img src={"http://192.168.99.100:8080/" + result.Img.path}></img>
-                <td>{result.Name}</td>
-                <td>{result.Stock}</td>
-                <td>{result.Price}</td>
-                <td><Link to={`/Info/${result._id}`}>More info</Link></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filterResult.length ? filterResult.map((result) => (
+                <tr key={result._id} className="tr">
+                  <img src={"http://192.168.99.100:8080/" + result.Img.path}></img>
+                  <td>{result.Name}</td>
+                  <td>{result.Stock}</td>
+                  <td>{result.Price}</td>
+                  <td><Link to={`/Info/${result._id}`}>More info</Link></td>
+                </tr>
+              )) :
+                results.map((result) => (
+                  <tr key={result._id} className="tr">
+                    <img src={"http://192.168.99.100:8080/" + result.Img.path}></img>
+                    <td>{result.Name}</td>
+                    <td>{result.Stock}</td>
+                    <td>{result.Price}</td>
+                    <td><Link to={`/Info/${result._id}`}>More info</Link></td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )
