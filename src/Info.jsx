@@ -4,8 +4,6 @@ import axios from 'axios';
 
 const Info = (props) => {
     const [result, setResult] = useState(null);
-    console.log("this");
-    console.log(props.match);
     
     useEffect(() => {
         axios.get(`http://192.168.99.100:8080/api/collections/get/Produkt?filter[_id]=${props.match.params.id}`)
@@ -16,10 +14,11 @@ const Info = (props) => {
         props.setCart([...props.cart, result]);
         alert("added to cart");
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        console.log("THIS ONE HERE" + cart);
+        
         cart.push(result);
         localStorage.setItem("cart", JSON.stringify(cart));
     }
-    console.log(result);
     return (
         <div>
             <div className="text-center">

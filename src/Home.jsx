@@ -45,7 +45,7 @@ const Home = () => {
         <br></br>
         <Link to="/">Home</Link>
         <br></br>
-        <Link to="/Cart">Cart</Link>
+        <Link to="/Cart">Shoping Cart</Link>
       </div>
       <div className="pagg">
         <button onClick={() => setPage(page - 1)}>&lt;</button>
