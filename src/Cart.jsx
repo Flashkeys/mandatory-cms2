@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Cart = () => {
-  const [price, setPrice] = useState(0);
   const [result, setResult] = useState(JSON.parse(localStorage.getItem("cart")) || []);
 
+  let total = 0;
 
   function totalPrice() {
-
+    //total += result.length * cart.Price
+    //total = cart.Price
   }
   totalPrice();
+
   function removeCart() {
     localStorage.removeItem('cart');
+    window.location.reload();
+  }
+  function buyCart() {
+    localStorage.removeItem('cart');
+    alert("Succesfully bought " + result.length + " items!");
     window.location.reload();
   }
   function removeItem(value) {
@@ -48,8 +55,9 @@ const Cart = () => {
                   <img src={"http://192.168.99.100:8080/" + cart.Img.path}></img>
                   <td>{cart.Name}</td>
                   <td>{cart.Stock}</td>
-                  <td>{cart.Price}</td>
+                  <td>{cart.Price}$</td>
                   <button className="btn-cart" onClick={() => removeItem(cart)}>Remove item</button>
+                  <p className="hide">{total += result.length * cart.Price}</p>
                 </tr>
               ))}
             </tbody>
@@ -58,8 +66,8 @@ const Cart = () => {
         <div className="text-center">
           <br></br>
           <button className="btn-sub" onClick={removeCart}>Empty cart</button>
-          <h3>price = {price} $</h3>
-          <button className="btn-sub">Buy now!</button>
+          <h3>price = {total} $</h3>
+          <button className="btn-sub" onClick={buyCart}>Buy now!</button>
           <div className="space"></div>
         </div>
       </div>

@@ -82,7 +82,7 @@ const Home = () => {
                     <img src={"http://192.168.99.100:8080/" + result.Img.path}></img>
                     <td>{result.Name}</td>
                     <td>{result.Stock}</td>
-                    <td>{result.Price}</td>
+                    <td>{result.Price}$</td>
                     <td><Link to={`/Info/${result._id}`}>More info</Link></td>
                   </tr>
                 ))}
