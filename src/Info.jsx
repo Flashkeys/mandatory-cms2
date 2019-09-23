@@ -31,7 +31,7 @@ const Info = (props) => {
                 <tbody>
                     {!result ? <p>Loading...</p> : <tr className="tr">
                         <td><img src={"http://192.168.99.100:8080/" + result.Img.path}></img></td>
-                        <td><img src={"http://192.168.99.100:8080/" + result.Gallery.path}></img></td>
+                        {result.Gallery.map(item => <img src={"http://192.168.99.100:8080" + item.path} />)}
                         <td>{result.Name}</td>
                         <td>{result.Desc}</td>
                         <td>Price : {result.Price}$</td>

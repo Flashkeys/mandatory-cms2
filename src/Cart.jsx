@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 const Cart = () => {
   const [result, setResult] = useState(JSON.parse(localStorage.getItem("cart")) || []);
 
-  let total = 0;
-
+  const total = result.reduce((acc, item) => ({Price: parseInt(acc.Price) + parseInt(item.Price)}))
+  
+  
   function totalPrice() {
     //total += result.length * cart.Price
     //total = cart.Price
@@ -57,7 +58,7 @@ const Cart = () => {
                   <td>{cart.Stock}</td>
                   <td>{cart.Price}$</td>
                   <button className="btn-cart" onClick={() => removeItem(cart)}>Remove item</button>
-                  <p className="hide">{total += result.length * cart.Price}</p>
+                  <p className="hide">{total.Price}</p>
                 </tr>
               ))}
             </tbody>
@@ -66,7 +67,7 @@ const Cart = () => {
         <div className="text-center">
           <br></br>
           <button className="btn-sub" onClick={removeCart}>Empty cart</button>
-          <h3>price = {total} $</h3>
+          <h3>price = {total.Price} $</h3>
           <button className="btn-sub" onClick={buyCart}>Buy now!</button>
           <div className="space"></div>
         </div>

@@ -8,22 +8,46 @@ const Home = () => {
   const [initResult, setInitResult] = useState([]);
   const [page, setPage] = useState(1);
   const [max, setMax] = useState(1);
+  const [inputValue, setInputValue] = useState("");
+  const [checked, setChecked] = useState(false);
   const limit = 4;
 
   useEffect(() => {
+    if (inputValue) {
+      axios.get(`http://192.168.99.100:8080/api/collections/get/Produkt?filter[Name][$regex]=${inputValue}`)
+        .then(res => {
+          setResult(res.data.entries);
+          setInitResult(res.data.entries);
+          setMax(Math.floor(res.data.total / limit) + 1)
+        })
+        .catch(function (error) {
+          alert('Error fetching the api')
+        });
+    } else if(checked){
+      axios.get("http://192.168.99.100:8080/api/collections/get/Produkt?filter[Stock][$regex]=[1-9]")
+        .then(res => {
+          setResult(res.data.entries);
+          setInitResult(res.data.entries);
+          setMax(Math.floor(res.data.total / limit) + 1)
+        })
+        .catch(function (error) {
+          alert('Error fetching the api')
+        });
+    } else {
+      axios.get(`http://192.168.99.100:8080/api/collections/get/Produkt?limit=${limit}&skip=${limit * page - limit}`)
+        .then(res => {
+          console.log(res.data.entries);
+          setResult(res.data.entries);
+          setInitResult(res.data.entries);
+          setMax(Math.floor(res.data.total / limit) + 1)
+        })
+        .catch(function (error) {
+          alert('Error fetching the api')
+        });
+    }
 
-    axios.get(`http://192.168.99.100:8080/api/collections/get/Produkt?limit=${limit}&skip=${limit * page - limit}`)
-      .then(res => {
-        console.log(res.data.entries);
-        setResult(res.data.entries);
-        setInitResult(res.data.entries);
-        setMax(Math.floor(res.data.total / limit) + 1)
-      })
-      .catch(function (error) {
-        alert('Error fetching the api')
-      });
+  }, [page, inputValue, checked]);
 
-  }, [page]);
 
   function searchFilter(searchQuery) {
     const regex = new RegExp(searchQuery, "i");
@@ -51,9 +75,9 @@ const Home = () => {
         <button onClick={() => setPage(page + 1)}>&gt;</button>
       </div>
       <div className="text-center">
-        <input type="text" placeholder="Search..." onChange={(e) => searchFilter(e.target.value)} />
+        <input type="text" placeholder="Search..." value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
         <br></br>
-        In Stock : <input type="checkbox" onChange={(e) => showStock(e.target.checked)} />
+        In Stock : <input type="checkbox" onChange={(e) => setChecked(e.target.checked)} />
       </div>
       <div className="posts">
         <div className="flex">
