@@ -2,15 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import Comments from "./Comments";
 
 const Info = (props) => {
     const [result, setResult] = useState(null);
+    const [comment, setComment] = useState(null);
 
     useEffect(() => {
         axios.get(`http://192.168.99.100:8080/api/collections/get/Produkt?filter[_id]=${props.match.params.id}`)
             .then((res) => setResult(res.data.entries[0]));
+
     }, []);
+
+    useEffect(() => {
+        const id = props.match.params.id;
+        axios.get(`http://192.168.99.100:8080/api/collections/get/Comment?filter[_id]=${props.match.params.id}`)
+            .then((res) => setComment(res.data.entries));
+
+    }, []);
+    console.log("reherjisbka " + JSON.stringify(comment));
+    
+
     function addCart() {
         props.setCart([...props.cart, result]);
         alert("added to cart");
@@ -40,6 +51,11 @@ const Info = (props) => {
                     </tr>}
                 </tbody>
             </table>
+            <div className="comments">
+
+                
+
+            </div>
 
         </div>
     )

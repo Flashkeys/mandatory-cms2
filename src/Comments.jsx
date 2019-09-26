@@ -6,22 +6,14 @@ const Comments = (props) => {
 
     useEffect(() => {
         axios.get(`http://192.168.99.100:8080/api/collections/get/Comment?filter[_id]=${props.match.params.id}`)
-            .then((res) => SetComment(res.data.entries[0]));
+            .then((res) => SetComment(res.data.entries));
 
     }, []);
+    console.log("this data : " + JSON.stringify(comment));
+    
     return (
         <div>
-            <table>
-                <tbody>
-                    {comment.map((result) => (
-                        <tr key={result._id}>
-                            <td>{result.Name}</td>
-                            <td>{result.Text}</td>
-                            <td>{result.Rating}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <span>testing</span>
         </div>
     )
 }
