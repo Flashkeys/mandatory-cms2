@@ -88,3 +88,17 @@ td {
 .space {
   margin: 50px;
 }
+.comment-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 75%;
+  padding: 20px;
+}
+.comments {
+  display: flex;
+  flex-direction: column;
+}
+.comment-text {
+  margin-left: 20%;
+}

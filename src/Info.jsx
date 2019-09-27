@@ -14,12 +14,10 @@ const Info = (props) => {
     }, []);
 
     useEffect(() => {
-        const id = props.match.params.id;
-        axios.get(`http://192.168.99.100:8080/api/collections/get/Comment?filter[_id]=${props.match.params.id}`)
+        axios.get(`http://192.168.99.100:8080/api/collections/get/Comment`)
             .then((res) => setComment(res.data.entries));
 
     }, []);
-    console.log("reherjisbka " + JSON.stringify(comment));
     
 
     function addCart() {
@@ -40,7 +38,7 @@ const Info = (props) => {
             </div>
             <table className="table">
                 <tbody>
-                    {!result ? <p>Loading...</p> : <tr className="tr">
+                    {!result ? <span>Loading...</span> : <tr className="tr">
                         <td><img src={"http://192.168.99.100:8080/" + result.Img.path}></img></td>
                         {result.Gallery.map(item => <img src={"http://192.168.99.100:8080" + item.path} />)}
                         <td>{result.Name}</td>
@@ -52,8 +50,21 @@ const Info = (props) => {
                 </tbody>
             </table>
             <div className="comments">
-
-                
+                {
+                    comment && result ? 
+                    comment.map((x) => {
+                        if(x.Produkt.display === result.Name) {
+                            console.log(x)
+                            return (
+                                <div className="comment-row">
+                                    <span className="comment-text">{x.Name}</span>
+                                    <span className="comment-text">{x.Text}</span>
+                                    <span className="comment-text">{x.Rating}</span>
+                                </div>
+                                )
+                        }
+                    }) : null
+                }
 
             </div>
 
