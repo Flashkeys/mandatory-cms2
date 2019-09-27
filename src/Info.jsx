@@ -18,7 +18,7 @@ const Info = (props) => {
             .then((res) => setComment(res.data.entries));
 
     }, []);
-    
+
 
     function addCart() {
         props.setCart([...props.cart, result]);
@@ -36,34 +36,34 @@ const Info = (props) => {
                 <Link to="/">Home</Link>
                 <Link to="/Cart">Shoping Cart</Link>
             </div>
-            <table className="table">
-                <tbody>
-                    {!result ? <span>Loading...</span> : <tr className="tr">
-                        <td><img src={"http://192.168.99.100:8080/" + result.Img.path}></img></td>
-                        {result.Gallery.map(item => <img src={"http://192.168.99.100:8080" + item.path} />)}
-                        <td>{result.Name}</td>
-                        <td>{result.Desc}</td>
-                        <td>Price : {result.Price}$</td>
-                        <td>Stock : {result.Stock}</td>
-                        <button onClick={addCart} className="btn">Add</button>
-                    </tr>}
-                </tbody>
-            </table>
+            {!result ? <span>Loading...</span> : <div className="info-table">
+                <span className="info-name">{result.Name}</span>
+                <img className="main-pic" src={"http://192.168.99.100:8080/" + result.Img.path}></img>
+                {result.Gallery.map(item => <img className="gallery-pic" src={"http://192.168.99.100:8080" + item.path} />)}
+                <br></br>
+                <span className="info-desc">{result.Desc}</span>
+                <div className="info-container">
+                <span className="info-price">Price : {result.Price}$</span>
+                <span className="info-stock">Stock : {result.Stock}</span>
+                <button onClick={addCart} className="info-btn">Add</button>
+                </div>
+            </div>}
+
             <div className="comments">
                 {
-                    comment && result ? 
-                    comment.map((x) => {
-                        if(x.Produkt.display === result.Name) {
-                            console.log(x)
-                            return (
-                                <div className="comment-row">
-                                    <span className="comment-text">{x.Name}</span>
-                                    <span className="comment-text">{x.Text}</span>
-                                    <span className="comment-text">{x.Rating}</span>
-                                </div>
+                    comment && result ?
+                        comment.map((x) => {
+                            if (x.Produkt.display === result.Name) {
+                                console.log(x)
+                                return (
+                                    <div className="comment-row">
+                                        <span className="comment-text">{x.Name}</span>
+                                        <span className="comment-text">{x.Text}</span>
+                                        <span className="comment-text">{x.Rating}/5</span>
+                                    </div>
                                 )
-                        }
-                    }) : null
+                            }
+                        }) : null
                 }
 
             </div>

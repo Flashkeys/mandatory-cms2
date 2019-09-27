@@ -4,8 +4,6 @@ import axios from 'axios';
 
 const Home = () => {
   const [results, setResult] = useState([]);
-  const [filterResult, setFilterResult] = useState([]);
-  const [initResult, setInitResult] = useState([]);
   const [page, setPage] = useState(1);
   const [max, setMax] = useState(1);
   const [inputValue, setInputValue] = useState("");
@@ -17,17 +15,15 @@ const Home = () => {
       axios.get(`http://192.168.99.100:8080/api/collections/get/Produkt?filter[Name][$regex]=${inputValue}`)
         .then(res => {
           setResult(res.data.entries);
-          setInitResult(res.data.entries);
           setMax(Math.floor(res.data.total / limit) + 1)
         })
         .catch(function (error) {
           alert('Error fetching the api')
         });
-    } else if(checked){
+    } else if (checked) {
       axios.get("http://192.168.99.100:8080/api/collections/get/Produkt?filter[Stock][$regex]=[1-9]")
         .then(res => {
           setResult(res.data.entries);
-          setInitResult(res.data.entries);
           setMax(Math.floor(res.data.total / limit) + 1)
         })
         .catch(function (error) {
@@ -38,7 +34,6 @@ const Home = () => {
         .then(res => {
           console.log(res.data.entries);
           setResult(res.data.entries);
-          setInitResult(res.data.entries);
           setMax(Math.floor(res.data.total / limit) + 1)
         })
         .catch(function (error) {
@@ -47,19 +42,6 @@ const Home = () => {
     }
 
   }, [page, inputValue, checked]);
-
-
-  function searchFilter(searchQuery) {
-    const regex = new RegExp(searchQuery, "i");
-    setFilterResult(results.filter(result => result.Name.match(regex)));
-  }
-  function showStock(checked) {
-    if (checked) {
-      setResult(results.filter(result => result.Stock > 0));
-    } else {
-      setResult(initResult)
-    }
-  }
 
 
   return (
@@ -71,7 +53,7 @@ const Home = () => {
       </div>
       <div className="text-center">
         <button onClick={() => setPage(page - 1)}>&lt;</button>
-        <input type="number" min={1} max={max} value={page} />
+        <input type="number" min={1} max={max} value={page}/>
         <button onClick={() => setPage(page + 1)}>&gt;</button>
       </div>
       <div className="text-center">
@@ -79,40 +61,18 @@ const Home = () => {
         <br></br>
         In Stock : <input type="checkbox" onChange={(e) => setChecked(e.target.checked)} />
       </div>
-      <div className="posts">
-        <div className="flex">
-          <table className="table">
-            <thead>
-              <tr className="tr">
-                <th></th>
-                <th>Name</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th>Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filterResult.length ? filterResult.map((result) => (
-                <tr key={result._id} className="tr">
-                  <img src={"http://192.168.99.100:8080/" + result.Img.path}></img>
-                  <td>{result.Name}</td>
-                  <td>{result.Stock}</td>
-                  <td>{result.Price}</td>
-                  <td><Link to={`/Info/${result._id}`}>More info</Link></td>
-                </tr>
-              )) :
-                results.map((result) => (
-                  <tr key={result._id} className="tr">
-                    <img src={"http://192.168.99.100:8080/" + result.Img.path}></img>
-                    <td>{result.Name}</td>
-                    <td>{result.Stock}</td>
-                    <td>{result.Price}$</td>
-                    <td><Link to={`/Info/${result._id}`}>More info</Link></td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
+      <div className="home-container">
+        {results.map((result) => (
+          <div key={result._id} className="home-row">
+            <img className="home-pic" alt="pic" src={"http://192.168.99.100:8080/" + result.Img.path}></img>
+            <div className="home-info">
+            <span>{result.Name}</span>
+            <span>{result.Stock} in stock</span>
+            <span>{result.Price}$</span>
+            <span><Link to={`/Info/${result._id}`}>More info</Link></span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )

@@ -40,29 +40,17 @@ const Cart = () => {
           <Link to="/">Home</Link>
           <Link to="/Cart">Shoping Cart</Link>
         </div>
-        <div className="flex">
-          <table className="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Stock</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
+        <div className="cart-container">
               {result.length && result.map(cart => (
-                <tr className="tr">
-                  <img src={"http://192.168.99.100:8080/" + cart.Img.path}></img>
-                  <td>{cart.Name}</td>
-                  <td>{cart.Stock}</td>
-                  <td>{cart.Price}$</td>
+                <div key={cart.id} className="info-container">
+                  <img alt="pic" src={"http://192.168.99.100:8080/" + cart.Img.path}></img>
+                  <span>{cart.Name}</span>
+                  <span>{cart.Stock} in stock</span>
+                  <span>{cart.Price}$</span>
                   <button className="btn-cart" onClick={() => removeItem(cart)}>Remove item</button>
-                  <p className="hide">{total.Price}</p>
-                </tr>
+                  <span className="hide">{total.Price}</span>
+                </div>
               ))}
-            </tbody>
-          </table>
         </div>
         <div className="text-center">
           <br></br>
